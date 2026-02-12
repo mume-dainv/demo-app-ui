@@ -16,9 +16,9 @@ export async function get<P>(
 
     const data: DataRespone = await res.json()
     
-    if (res.status == 401) {
-        await refresh();
-    }
+    // if (res.status == 401) {
+    //     await refresh();
+    // }
     if (!res.ok) throw new Error(data.message || errMsg)
     
     return data;
@@ -41,28 +41,28 @@ export async function post<P>(
             body: JSON.stringify(data)
         }); 
     const dataRes: DataRespone = await res.json();
-    if (res.statusText == '401') {
-        await refresh();
-    }
+    // if (res.statusText == '401') {
+    //     await refresh();
+    // }
     if (!res.ok) throw new Error(dataRes?.message || errMsg);
 
     return dataRes;
 }
 
-const refresh = async () => {
+// const refresh = async () => {
        
-            const res = await fetch(API_URL + '/refresh', {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: 'include',
-            method: 'POST',
-        }); 
+//             const res = await fetch(API_URL + '/refresh', {
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             credentials: 'include',
+//             method: 'POST',
+//         }); 
 
-        if (!res.ok) {
-            window.location.href = "/login"
-        }
-}
+//         if (!res.ok) {
+//             window.location.href = "/login"
+//         }
+// }
  
 
 export type P = {

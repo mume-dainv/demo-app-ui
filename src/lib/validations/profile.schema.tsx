@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const ProfileSchema = z.object({
-    name: z.email(),
+    name: z.string().min(5),
     avatar: z.file()
 })
 

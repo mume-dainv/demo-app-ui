@@ -9,3 +9,7 @@ export const getMe = async (options: RequestInit = {})  => {
     
     return res.data;
 } 
+
+export const logout = async (options: RequestInit = {})  => {
+    return await post('/logout','POST');
+} 

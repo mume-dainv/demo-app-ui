@@ -4,6 +4,7 @@ import { getMe } from "@/services/auth";
 import { DataRespone } from "@/services/base";
 import { UserContext as UserContextType } from "@/types/contexts";
 import { User } from "@/types/user";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
   
 const UserContext = createContext<UserContextType | null>(null);
@@ -11,14 +12,16 @@ const UserContext = createContext<UserContextType | null>(null);
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-   
+  const router = useRouter();
+
   const refreshUser = async () => {
     try {
       setLoading(true);
-      const data = await getMe();
-      setUser(data.user)  
+      const res = await getMe();
+      setUser(res.user)  
     } catch {
       setUser(null);
+      router.replace('/login')
     } finally {
       setLoading(false);
     }
