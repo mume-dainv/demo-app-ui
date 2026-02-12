@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useUser } from "@/contexts/userContext";
+import UserDropDown from "./UserDropDown";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,13 +15,16 @@ export default function Header() {
     },
     {
         name: "About",
-        href: "/",
+        href: "/ab",
     },
     {
         name: "Dashboard",
-        href: "/",
+        href: "/dashboard",
     } 
   ];
+
+  const {user} = useUser();
+  
 
   return (
     <header className="w-full border-b bg-white">
@@ -32,16 +37,16 @@ export default function Header() {
 
         {/* Desktop Menu */}
         <nav className="hidden items-center space-x-6 md:flex">
-            {navItems.map((item) => (<Link href={item.href} className="text-gray-600 hover:text-black">
+            {navItems.map((item, index) => (<Link href={item.href} key={index} className="text-gray-600 hover:text-black">
             {item.name}
           </Link>))}
-           
-          <Link
+          { user ? <UserDropDown/> : <Link
             href="/login"
             className="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"
           >
             Login
-          </Link>
+          </Link> }
+          
         </nav>
  
       </div> 
