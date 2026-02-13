@@ -5,3 +5,7 @@ export interface UserContext  {
     loading: boolean;
     refreshUser: Function;
 }
+
+export interface RoleContext  {
+    isAdmin: boolean; 
+}

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "jwt-decode": "^4.0.0",
     "next": "13.5.11",
     "react": "^18",
     "react-dom": "^18",
@@ -17,14 +18,18 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^1.0.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "13.5.11",
+    "globals": "^17.3.0",
     "postcss": "^8",
     "tailwindcss": "^3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.55.0"
   }
 }

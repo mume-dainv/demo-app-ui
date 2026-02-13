@@ -1,7 +1,6 @@
 "use client";
 
 import { getMe } from "@/services/auth";
-import { DataRespone } from "@/services/base";
 import { UserContext as UserContextType } from "@/types/contexts";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
@@ -18,7 +17,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       const res = await getMe();
-      setUser(res.user)  
+      setUser(res.user as User);  
     } catch {
       setUser(null);
       router.replace('/login')

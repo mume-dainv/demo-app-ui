@@ -4,18 +4,20 @@ import { useState } from "react"
 import Link from "next/link"
 import { useUser } from "@/contexts/userContext";
 import UserDropDown from "./UserDropDown";
+import { useRole } from "@/contexts/roleContext";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const {isAdmin} = useRole();
   const navItems = [
     {
-        name: "home",
+        name: "Home",
         href: "/",
     },
     {
-        name: "About",
-        href: "/ab",
+        name: "Users",
+        href: "/users",
+        role: 'ADMIN'
     },
     {
         name: "Dashboard",
@@ -31,15 +33,16 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-gray-800">
+        <Link href={user ? '/' : ''} className="text-xl font-bold text-gray-800">
           MyApp
         </Link>
 
         {/* Desktop Menu */}
-        <nav className="hidden items-center space-x-6 md:flex">
-            {navItems.map((item, index) => (<Link href={item.href} key={index} className="text-gray-600 hover:text-black">
+        {user && <nav className="hidden items-center space-x-6 md:flex">
+            {navItems.map((item, index) => (
+            <Link href={item.href} key={index} className="text-gray-600 hover:text-black">
             {item.name}
-          </Link>))}
+            </Link>))}
           { user ? <UserDropDown/> : <Link
             href="/login"
             className="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"
@@ -47,7 +50,7 @@ export default function Header() {
             Login
           </Link> }
           
-        </nav>
+        </nav>}
  
       </div> 
     </header>
