@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Auth, AuthSchema } from '@/lib/validations/auth.schema';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/contexts/userContext";
+import InputForm from "@/components/InputForm";
 
 export default function LoginPage() {
   const {
@@ -15,7 +16,7 @@ export default function LoginPage() {
     watch,
     formState: { errors },
   } = useForm<Auth>({resolver: zodResolver(AuthSchema)})
-
+  const {user} = useUser();
   const router = useRouter();
   const {refreshUser} = useUser() 
 
@@ -32,24 +33,18 @@ export default function LoginPage() {
     
   };
    
+  useEffect(() => {
+     if(user){
+        router.replace('/');
+     }
+  }, [user]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
         <h1 className="mb-6 text-center text-2xl font-bold">Login</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Email */}
-          <div>
-            <label className="mb-1 block text-sm font-medium">Email</label>
-            <input
-              type="text"
-              required
-              className="w-full rounded-lg border px-3 py-2 focus:border-black focus:outline-none"
-              {...register("email", {required: true})}
-            />
-            { errors.email && <p className="text-red-600">{errors.email.message}</p> }
-          </div>
-
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4"> 
+          <InputForm name='email' register={register('email')} error={errors.email}/>
           {/* Password */}
           <div>
             <label className="mb-1 block text-sm font-medium">Password</label>

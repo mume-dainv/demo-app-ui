@@ -1,7 +1,7 @@
 import { DataRespone, get, P, post } from "./base"
 
 export const login = async (authData = {},options: RequestInit = {})  => {
-    return await post('/login', authData,'POST', options);
+    return await post('/login', authData, options);
 } 
 
 export const getMe = async (options: RequestInit = {})  => {
@@ -11,5 +11,5 @@ export const getMe = async (options: RequestInit = {})  => {
 } 
 
 export const logout = async (options: RequestInit = {})  => {
-    return await post('/logout','POST');
+    return await post('/logout');
 } 
