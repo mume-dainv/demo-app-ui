@@ -1,0 +1,6 @@
+import { post } from "@/lib/axios/http";
+import { AuthValue } from "@/lib/validations/auth";
+
+export const login = (auth: AuthValue) => {
+  return post("/login", auth);
+};
