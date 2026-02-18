@@ -1,11 +1,42 @@
-import axios from "axios";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 // lib/http.ts
-export const http = axios.create({
+const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
-export const get = async (endPoint: string, options?: any) => {
+const refreshHttp = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
+});
+
+http.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      originalRequest.url !== '/refresh'
+    ) {
+      originalRequest._retry = true;
+      try {
+        await refreshHttp.post('/refresh');
+        return http(originalRequest);
+      } catch (err) {
+        console.error('Refresh token failed', err);
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
+export const get = (endPoint: string, options?: any) => {
   return http.get(endPoint, { ...options });
 };
 

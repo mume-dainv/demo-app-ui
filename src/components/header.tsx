@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { useUser } from "@/contexts/userContext";
+import { useState } from 'react';
+import Link from 'next/link';
+import { useUser } from '@/contexts/userContext';
+import UserDropDown from './userDropDown';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,17 +12,17 @@ export default function Header() {
 
   const navItems = [
     {
-      name: "Home",
-      href: "/",
+      name: 'Home',
+      href: '/',
     },
     {
-      name: "Users",
-      href: "/users",
-      role: "ADMIN",
+      name: 'Users',
+      href: '/users',
+      role: 'ADMIN',
     },
     {
-      name: "Dashboard",
-      href: "/dashboard",
+      name: 'Dashboard',
+      href: '/dashboard',
     },
   ];
 
@@ -33,7 +34,7 @@ export default function Header() {
           MyApp
         </Link>
         {user ? (
-          <div>{user.name}</div>
+          <UserDropDown />
         ) : (
           <Link
             href="/login"
