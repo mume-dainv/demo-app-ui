@@ -1,5 +1,9 @@
-import { get } from "@/lib/axios/http";
+import { get, postForm } from '@/lib/axios/http';
 
 export const getProfile = () => {
-  return get("/me");
+  return get('/me');
+};
+
+export const updateProfile = (data: any) => {
+  return postForm('/me', data);
 };

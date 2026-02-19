@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 // lib/http.ts
 const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -42,6 +41,10 @@ export const get = (endPoint: string, options?: any) => {
 
 export const post = (endPoint: string, data: object, options?: any) => {
   return http.post(endPoint, data);
+};
+
+export const postForm = (endPoint: string, data: object, options?: any) => {
+  return http.postForm(endPoint, data);
 };
 
 export const put = (endPoint: string, data: object, options?: any) => {

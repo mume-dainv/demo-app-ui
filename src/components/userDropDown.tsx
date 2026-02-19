@@ -31,7 +31,7 @@ export default function UserDropDown() {
   return (
     <main>
       <button className="relative" onClick={() => setMenu(!menu)}>
-        <img className="size-11 rounded-full" src={user?.avatar || 'default_avatar.jpg'} />
+        <img className="size-11 rounded-full" src={user?.avatar_url || 'default_avatar.jpg'} />
       </button>
       <div
         ref={menuRef}
