@@ -1,3 +1,4 @@
+import { Role, UserRole } from '@/types/common';
 import z, { string } from 'zod';
 const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
@@ -26,4 +27,11 @@ export const ProfileSchema = z.object({
   ),
 });
 
+export const UserSchema = z.object({
+  name: z.string(),
+  email: z.email(),
+  role: z.string<UserRole>(),
+});
+
 export type ProfileType = z.infer<typeof ProfileSchema>;
+export type UserType = z.infer<typeof UserSchema>;

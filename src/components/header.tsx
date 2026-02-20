@@ -33,6 +33,9 @@ export default function Header() {
         <Link href="/" className="text-xl font-bold text-gray-800">
           MyApp
         </Link>
+        <Link href="/users" className="text-xl font-bold text-gray-800">
+          Users
+        </Link>
         {user ? (
           <UserDropDown />
         ) : (
