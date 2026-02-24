@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { cookies, headers } from 'next/headers';
+import axios, { AxiosHeaders, AxiosRequestConfig } from 'axios';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -31,6 +31,6 @@ api.interceptors.response.use(
   },
 );
 
-export const get = (endPoint: string) => {
-  return api.get(endPoint);
+export const get = (endPoint: string, options?: AxiosRequestConfig) => {
+  return api.get(endPoint, { ...options });
 };

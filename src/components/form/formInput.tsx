@@ -1,4 +1,4 @@
-import { FieldError } from "react-hook-form";
+import { FieldError } from 'react-hook-form';
 
 export default function FormInput({
   name,
@@ -14,7 +14,7 @@ export default function FormInput({
 }) {
   return (
     <div>
-      <label className="mb-1 block text-sm text-gray-600">{name}</label>
+      <label className="block text-sm font-medium">{name}</label>
       <input
         type="text"
         className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring focus:ring-slate-500"

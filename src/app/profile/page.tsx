@@ -5,7 +5,7 @@ import UserLogging from '@/components/UI/userLogging';
 import { useAlert } from '@/contexts/alertContext';
 import { useUser } from '@/contexts/userContext';
 import { ProfileSchema, ProfileType } from '@/lib/validations/user';
-import { updateProfile } from '@/services/clients/user.service';
+import { updateProfile } from '@/services/clients/user.client.service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -38,7 +38,6 @@ export default function Profile() {
       await refresh();
     } catch (err) {
       addAlert(err.data.message ?? 'err...');
-      console.log(err);
     }
   };
 

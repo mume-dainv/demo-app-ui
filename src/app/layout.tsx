@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/header';
 import { UserProvider } from '@/contexts/userContext';
 import { AlertProvider } from '@/contexts/alertContext';
+import { Role } from '@/components/hooks/Role';
 
 const inter = Inter({ subsets: ['latin'] });
 

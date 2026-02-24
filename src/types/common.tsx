@@ -4,7 +4,7 @@ export interface User {
   email: string;
   avatar?: string;
   avatar_url?: string;
-  role?: Role;
+  role: Role;
   user_logging?: UserLogging[];
 }
 

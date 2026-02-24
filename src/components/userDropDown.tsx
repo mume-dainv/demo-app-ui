@@ -3,7 +3,7 @@
 import { useUser } from '@/contexts/userContext';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { logout as logoutHandle } from '@/services/clients/auth.service';
+import { logout as logoutHandle } from '@/services/clients/auth.client.service';
 import { useRouter } from 'next/navigation';
 
 export default function UserDropDown() {

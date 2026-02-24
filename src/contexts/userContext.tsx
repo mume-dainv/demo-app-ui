@@ -1,10 +1,8 @@
 'use client';
-import { getProfile } from '@/services/clients/user.service';
-import { AlertProps, User } from '@/types/common';
+import { getProfile } from '@/services/clients/user.client.service';
 import { UserContextType } from '@/types/contexts';
 import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { useAlert } from './alertContext';
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 

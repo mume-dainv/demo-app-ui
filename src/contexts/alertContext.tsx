@@ -1,10 +1,10 @@
-"use client";
-import Alert from "@/components/UI/Alert";
-import { DEFAULT_ALERT_DURATION } from "@/const";
-import { AlertProps } from "@/types/common";
-import { AlertContextType } from "@/types/contexts";
+'use client';
+import Alert from '@/components/UI/Alert';
+import { DEFAULT_ALERT_DURATION } from '@/const';
+import { AlertProps } from '@/types/common';
+import { AlertContextType } from '@/types/contexts';
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
@@ -25,8 +25,8 @@ export function AlertProvider({ children }: { children: ReactNode }) {
 
   return (
     <AlertContext.Provider value={{ addAlert }}>
-      <div className="h-screen">
-        <div className="fixed right-2 top-2 z-50 flex flex-col gap-3">
+      <div className="relative">
+        <div className="absolute right-2 top-2 flex flex-col gap-3 z-10">
           {alerts.length > 0 &&
             alerts.map((alert) => {
               return (
@@ -50,7 +50,7 @@ export function AlertProvider({ children }: { children: ReactNode }) {
 export const useAlert = () => {
   const context = useContext(AlertContext);
   if (!context) {
-    throw new Error("useAlert must be used within AlertProvider");
+    throw new Error('useAlert must be used within AlertProvider');
   }
   return context;
 };

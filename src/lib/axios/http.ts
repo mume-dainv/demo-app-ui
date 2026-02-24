@@ -52,5 +52,5 @@ export const put = (endPoint: string, data: object, options?: any) => {
 };
 
 export const del = (endPoint: string, options?: any) => {
-  return http.delete(endPoint, ...options);
+  return http.delete(endPoint, { ...options });
 };

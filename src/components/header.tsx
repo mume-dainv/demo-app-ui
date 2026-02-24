@@ -17,8 +17,9 @@ export default function Header() {
     },
     {
       name: 'Users',
-      href: '/users',
-      role: 'ADMIN',
+      href: '/admin/users',
+      role: ['ADMIN'],
+      tag: 'a',
     },
     {
       name: 'Dashboard',
@@ -33,9 +34,27 @@ export default function Header() {
         <Link href="/" className="text-xl font-bold text-gray-800">
           MyApp
         </Link>
-        <Link href="/users" className="text-xl font-bold text-gray-800">
+        {user &&
+          navItems.map((item) => {
+            if (item.role && !item.role.includes(user.role)) {
+              return null;
+            }
+            if (item.tag === 'a') {
+              return (
+                <a key={item.name} href={item.href} className="text-xl font-bold text-gray-800">
+                  {item.name}
+                </a>
+              );
+            }
+            return (
+              <Link key={item.name} href={item.href} className="text-xl font-bold text-gray-800">
+                {item.name}
+              </Link>
+            );
+          })}
+        {/* <a href="/admin/users" className="text-xl font-bold text-gray-800">
           Users
-        </Link>
+        </a> */}
         {user ? (
           <UserDropDown />
         ) : (

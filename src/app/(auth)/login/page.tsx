@@ -4,7 +4,7 @@ import FormInput from '@/components/form/formInput';
 import { useAlert } from '@/contexts/alertContext';
 import { useUser } from '@/contexts/userContext';
 import { AuthSchema, AuthValue } from '@/lib/validations/auth';
-import { login } from '@/services/clients/auth.service';
+import { login } from '@/services/clients/auth.client.service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
