@@ -8,9 +8,7 @@ export default function FormInput({
 }: {
   name: string;
   register?: object;
-  error?: {
-    message: string;
-  };
+  error?: FieldError | undefined;
 }) {
   return (
     <div>
@@ -21,7 +19,7 @@ export default function FormInput({
         {...register}
         {...props}
       />
-      {error && <p className="text-red-600">{error.message as string}</p>}
+      {error && <p className="text-red-600">{error.message}</p>}
     </div>
   );
 }

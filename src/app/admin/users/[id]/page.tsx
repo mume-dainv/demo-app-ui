@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import LogImport from '../components/logImport';
+import LogImport from '../components/logImports';
 import { convertError } from '@/helpers/converError';
 
 export default function User({ params }: { params: { id: string } }) {
@@ -81,7 +81,12 @@ export default function User({ params }: { params: { id: string } }) {
       <form onSubmit={handleSubmit(submit)}>
         <FormInput name="name" register={register('name')} error={errors.name} />
 
-        <FormInput name="email" register={register('email')} error={errors.email} />
+        <FormInput
+          name="email"
+          disabled={Number(params.id) ? true : false}
+          register={register('email')}
+          error={errors.email}
+        />
 
         <div>
           <label className="block text-sm font-medium">Role</label>

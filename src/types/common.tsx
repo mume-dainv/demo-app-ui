@@ -14,6 +14,19 @@ export interface UserLogging {
   login_at: Date;
 }
 
+export interface ImportLogType {
+  id: string;
+  row: number;
+  file_name: string;
+  errors: Array<object>;
+  total_row: number;
+  row_fail: number;
+  row_success: number;
+  job_name: string;
+  status: string;
+  created_at: Date;
+}
+
 export type Role = 'ADMIN' | 'USER';
 export type AlertVariant = 'success' | 'error' | 'warning' | 'info';
 export interface AlertProps {

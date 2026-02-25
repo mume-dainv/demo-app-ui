@@ -15,9 +15,7 @@ export function middleware(request: NextRequest) {
       if (r.role === role) {
         r.block.forEach((b) => {
           const patern = b.replace('*', '');
-          if (request.nextUrl.pathname.startsWith(patern)) {
-            return NextResponse.redirect(new URL('/', request.url));
-          }
+          return NextResponse.redirect(new URL('/', request.url));
         });
       }
     });

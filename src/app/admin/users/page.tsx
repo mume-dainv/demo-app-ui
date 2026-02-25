@@ -2,10 +2,16 @@ import { getAllUser } from '@/services/apis/user.api.service';
 import { User } from '@/types/common';
 import Link from 'next/link';
 import UserCard from './userCard';
+import Pagination from '@/components/UI/paginate';
 
 export default async function Users() {
-  const res = await getAllUser();
-  const users = res.data.data.users;
+  let res = await getAllUser();
+
+  let users = res.data.data.users as User[];
+  const changePage = async (page: number) => {
+    res = await getAllUser(page);
+    users = res.data.data.users as User[];
+  };
   return (
     <div className="mt-3">
       <Link
@@ -28,12 +34,18 @@ export default async function Users() {
         <tbody>
           {users && users.map((user: User) => <UserCard user={user} key={user.id} />)}
 
-          {users?.length === 0 && (
+          {users?.length === 0 ? (
             <tr>
               <td colSpan={4} className="py-6 text-center text-gray-500">
                 No users found
               </td>
             </tr>
+          ) : (
+            // <Pagination
+            //   currentPage={res.data.current_page}
+            //   lastPage={res.data.last_page}
+            //   onChange={changePage}
+            // />
           )}
         </tbody>
       </table>

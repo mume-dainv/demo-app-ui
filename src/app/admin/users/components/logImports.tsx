@@ -3,6 +3,8 @@ import { deleteLogImportUser, getLogImportUser } from '@/services/clients/user.c
 import React, { useEffect, useRef, useState } from 'react';
 import LogMessage from './logMessage';
 import { useAlert } from '@/contexts/alertContext';
+import { ImportLogType } from '@/types/common';
+import LogDetail from './logDetail';
 
 export default function LogImport({ closeModal }: { closeModal: () => void }) {
   const [logImport, setLogImport] = useState<[]>([]);
@@ -10,6 +12,10 @@ export default function LogImport({ closeModal }: { closeModal: () => void }) {
   const modalRef = useRef(null);
 
   const { addAlert } = useAlert();
+  const [switchState, setSwitchState] = useState({
+    case: 1,
+    data: logImport,
+  });
 
   const fetchLogImport = async () => {
     try {
@@ -45,6 +51,43 @@ export default function LogImport({ closeModal }: { closeModal: () => void }) {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const test = () => {
+    switch (switchState.case) {
+      case 1:
+        return logImport.map((log: ImportLogType) => (
+          <div
+            onClick={() => setSwitchState({ ...switchState, case: 2, data: log })}
+            key={log.id}
+            className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between"
+          >
+            <p>File Name: {log.file_name}</p>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteLogImport(log.id);
+              }}
+              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+            >
+              Delete
+            </button>
+          </div>
+        ));
+      case 2:
+        return (
+          <LogDetail
+            log={switchState.data}
+            nextState={() =>
+              setSwitchState({ ...switchState, case: 3, data: switchState.data.errors })
+            }
+          />
+        );
+      case 3:
+        return <LogMessage messages={switchState.data} />;
+      default:
+        return 'default';
+    }
+  };
   return (
     <div
       ref={modalRef}
@@ -70,29 +113,31 @@ export default function LogImport({ closeModal }: { closeModal: () => void }) {
         </button>
       </div>
       <div className="overflow-auto">
-        {logImport &&
-          (messages.length > 0 ? (
-            <LogMessage messages={messages} />
-          ) : (
-            logImport.map((log) => (
-              <div
-                onClick={() => setMessages(log.messages)}
-                key={log.id}
-                className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between"
-              >
-                <p>File Name: {log.file_name}</p>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteLogImport(log.id);
-                  }}
-                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </div>
-            ))
-          ))}
+        {
+          logImport && test()
+          // (messages.length > 0 ? (
+          //   <LogMessage messages={messages} />
+          // ) : (
+          //   logImport.map((log: ImportLogType) => (
+          //     <div
+          //       onClick={() => setMessages(log.errors)}
+          //       key={log.id}
+          //       className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between"
+          //     >
+          //       <p>File Name: {log.file_name}</p>
+          //       <button
+          //         onClick={(e) => {
+          //           e.stopPropagation();
+          //           deleteLogImport(log.id);
+          //         }}
+          //         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+          //       >
+          //         Delete
+          //       </button>
+          //     </div>
+          //   ))
+          // ))
+        }
       </div>
     </div>
   );

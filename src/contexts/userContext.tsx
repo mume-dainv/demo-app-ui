@@ -1,5 +1,6 @@
 'use client';
 import { getProfile } from '@/services/clients/user.client.service';
+import { User } from '@/types/common';
 import { UserContextType } from '@/types/contexts';
 import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
