@@ -34,3 +34,7 @@ api.interceptors.response.use(
 export const get = (endPoint: string, options?: AxiosRequestConfig) => {
   return api.get(endPoint, { ...options });
 };
+
+export const post = (endPoint: string, data = {}, options?: AxiosRequestConfig) => {
+  return api.post(endPoint, data, { ...options });
+};

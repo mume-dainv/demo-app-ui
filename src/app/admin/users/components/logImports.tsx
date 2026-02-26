@@ -4,9 +4,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import LogMessage from './logMessage';
 import { useAlert } from '@/contexts/alertContext';
 import { ImportLogType } from '@/types/common';
-import LogDetail from './logDetail';
 
-export default function LogImport({ closeModal }: { closeModal: () => void }) {
+export default function LogImport() {
   const [logImport, setLogImport] = useState<[]>([]);
   const [messages, setMessages] = useState<[]>([]);
   const modalRef = useRef(null);
@@ -41,59 +40,17 @@ export default function LogImport({ closeModal }: { closeModal: () => void }) {
 
   useEffect(() => {
     fetchLogImport();
-    function handleClickOutside(event) {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        closeModal();
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
   }, []);
 
-  const test = () => {
-    switch (switchState.case) {
-      case 1:
-        return logImport.map((log: ImportLogType) => (
-          <div
-            onClick={() => setSwitchState({ ...switchState, case: 2, data: log })}
-            key={log.id}
-            className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between"
-          >
-            <p>File Name: {log.file_name}</p>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteLogImport(log.id);
-              }}
-              className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-            >
-              Delete
-            </button>
-          </div>
-        ));
-      case 2:
-        return (
-          <LogDetail
-            log={switchState.data}
-            nextState={() =>
-              setSwitchState({ ...switchState, case: 3, data: switchState.data.errors })
-            }
-          />
-        );
-      case 3:
-        return <LogMessage messages={switchState.data} />;
-      default:
-        return 'default';
-    }
+  const statusStyles = {
+    Complete: 'bg-blue-500',
+    Running: 'bg-slate-500',
+    Failed: 'bg-red-500',
   };
+
   return (
-    <div
-      ref={modalRef}
-      className="absolute left-1/2 flex flex-col top-1/2 transform bg-white -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 shadow-2xl text-black"
-    >
-      <div>
+    <div className="border mt-2 shadow-lg">
+      <div className="relative">
         {messages.length > 0 && (
           <button
             onClick={() => setMessages([])}
@@ -106,38 +63,51 @@ export default function LogImport({ closeModal }: { closeModal: () => void }) {
 
         <h1 className="border-b p-4 text-center text-2xl font-bold">Import Logs</h1>
         <button
-          className="absolute top-4 right-4 border-spacing-10 rounded-full bg-red-500 px-3 py-1 text-white hover:bg-red-600"
-          onClick={() => closeModal()}
+          onClick={() => fetchLogImport()}
+          className="absolute top-4 right-4 border-spacing-10 rounded-full bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
         >
-          x
+          {' '}
+          Refresh
         </button>
       </div>
-      <div className="overflow-auto">
-        {
-          logImport && test()
-          // (messages.length > 0 ? (
-          //   <LogMessage messages={messages} />
-          // ) : (
-          //   logImport.map((log: ImportLogType) => (
-          //     <div
-          //       onClick={() => setMessages(log.errors)}
-          //       key={log.id}
-          //       className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between"
-          //     >
-          //       <p>File Name: {log.file_name}</p>
-          //       <button
-          //         onClick={(e) => {
-          //           e.stopPropagation();
-          //           deleteLogImport(log.id);
-          //         }}
-          //         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-          //       >
-          //         Delete
-          //       </button>
-          //     </div>
-          //   ))
-          // ))
-        }
+      <div className="overflow-y-auto h-[40vh]">
+        {messages.length > 0 ? (
+          <LogMessage messages={messages} />
+        ) : (
+          logImport.map((log: ImportLogType) => (
+            <div
+              onClick={() => log.row_fail > 0 && setMessages(log.errors as [])}
+              key={log.id}
+              className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between "
+            >
+              <div className="flex-1">
+                <p>File Name: {log.file_name}</p>
+                <div className="flex flex-row justify-between">
+                  <p>Total row: {log.total_rows}</p>
+                  <p className="text-red-500">Total row fail: {log.row_fail}</p>
+                  <p className="text-blue-500">Total row success: {log.row_success}</p>
+                  <p>
+                    status:{' '}
+                    <span className={`rounded-3xl p-2 text-white ${statusStyles[log.status]}`}>
+                      {log.status}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              {log.status !== 'Running' && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteLogImport(log.id);
+                  }}
+                  className="bg-red-500 ml-5 text-white px-2 py-1 rounded hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

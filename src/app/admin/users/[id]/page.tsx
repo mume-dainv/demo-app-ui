@@ -77,59 +77,57 @@ export default function User({ params }: { params: { id: string } }) {
     }
   }, [params.id]);
   return (
-    <div className="m-auto max-w-md space-y-4 rounded-xl border bg-white p-6 shadow">
-      <form onSubmit={handleSubmit(submit)}>
-        <FormInput name="name" register={register('name')} error={errors.name} />
+    <div>
+      <div className="m-auto max-w-md space-y-4 mt-12 rounded-xl border bg-white p-6 shadow">
+        <form onSubmit={handleSubmit(submit)}>
+          <FormInput name="name" register={register('name')} error={errors.name} />
 
-        <FormInput
-          name="email"
-          disabled={Number(params.id) ? true : false}
-          register={register('email')}
-          error={errors.email}
-        />
+          <FormInput
+            name="email"
+            disabled={Number(params.id) ? true : false}
+            register={register('email')}
+            error={errors.email}
+          />
 
-        <div>
-          <label className="block text-sm font-medium">Role</label>
-          <select {...register('role')} className="mt-1 w-full rounded border p-2">
-            <option value="USER">USER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
-        </div>
+          <div>
+            <label className="block text-sm font-medium">Role</label>
+            <select {...register('role')} className="mt-1 w-full rounded border p-2">
+              <option value="USER">USER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full rounded mt-3 bg-black py-2 text-white disabled:opacity-50"
-        >
-          {params.id === 'create' ? 'Create User' : 'Update User'}
-        </button>
-      </form>
-      {!Number(params.id) && (
-        <div className="flex flex-col items-start justify-center">
-          <form onSubmit={importForm.handleSubmit(handleImportUser)}>
-            <label className="block text-sm font-medium">Import</label>
-            <div className="flex items-center ">
-              <input {...importForm.register('users')} className="w-3/5" type="file" />
-              <button
-                type="submit"
-                className="flex-1 rounded bg-black py-2 text-white disabled:opacity-50"
-              >
-                Import
-              </button>
-            </div>
-            {importForm.formState.errors.users && (
-              <p className="text-red-600">{importForm.formState.errors.users.message}</p>
-            )}
-          </form>
           <button
-            onClick={() => setLogModalOpen(!logModalOpen)}
-            className="flex-1 rounded bg-black py-2 text-white disabled:opacity-50 w-1/3"
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded mt-3 bg-black py-2 text-white disabled:opacity-50"
           >
-            Log import
+            {params.id === 'create' ? 'Create User' : 'Update User'}
           </button>
-        </div>
-      )}
-      {logModalOpen && <LogImport closeModal={() => setLogModalOpen(!logModalOpen)} />}
+        </form>
+        {!Number(params.id) && (
+          <div className="flex flex-col items-start justify-center">
+            <form onSubmit={importForm.handleSubmit(handleImportUser)}>
+              <label className="block text-sm font-medium">Import</label>
+              <div className="flex items-center ">
+                <input {...importForm.register('users')} className="w-3/5" type="file" />
+                <button
+                  type="submit"
+                  className="flex-1 rounded bg-black py-2 text-white disabled:opacity-50"
+                >
+                  Import
+                </button>
+              </div>
+              {importForm.formState.errors.users && (
+                <p className="text-red-600">{importForm.formState.errors.users.message}</p>
+              )}
+            </form>
+          </div>
+        )}
+      </div>
+      <div>
+        <LogImport />
+      </div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export interface ImportLogType {
   row: number;
   file_name: string;
   errors: Array<object>;
-  total_row: number;
+  total_rows: number;
   row_fail: number;
   row_success: number;
   job_name: string;
@@ -34,4 +34,13 @@ export interface AlertProps {
   title?: string;
   message: string;
   duration?: number;
+}
+
+export type JobStatus = 'Complete' | 'Running' | 'Fail';
+
+export interface JobExportUser {
+  id: string;
+  file_path: string;
+  created_ate: Date;
+  status: JobStatus;
 }

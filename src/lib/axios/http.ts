@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 // lib/http.ts
 const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -39,7 +39,7 @@ export const get = (endPoint: string, options?: any) => {
   return http.get(endPoint, { ...options });
 };
 
-export const post = (endPoint: string, data: object, options?: any) => {
+export const post = (endPoint: string, data: {}, options?: AxiosRequestConfig) => {
   return http.post(endPoint, data);
 };
 

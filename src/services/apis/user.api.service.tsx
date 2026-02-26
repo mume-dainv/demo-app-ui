@@ -1,4 +1,8 @@
-import { get } from '@/lib/axios/api';
-export const getAllUser = (page = 1) => {
-  return get(`/admin/users?page=${page}`);
+import { get, post } from '@/lib/axios/api';
+export const getAllUser = (searchParams: string) => {
+  return get(`/admin/users?${searchParams}`);
+};
+
+export const getExportUsers = (queries = '') => {
+  return get('admin/users/export?' + queries);
 };
