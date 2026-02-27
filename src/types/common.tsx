@@ -20,11 +20,10 @@ export interface ImportLogType {
   file_name: string;
   errors: Array<object>;
   total_rows: number;
-  row_fail: number;
-  row_success: number;
-  job_name: string;
+  fail_count: number;
+  success_count: number;
   status: string;
-  created_at: Date;
+  created_at: string;
 }
 
 export type Role = 'ADMIN' | 'USER';
@@ -41,6 +40,6 @@ export type JobStatus = 'Complete' | 'Running' | 'Fail';
 export interface JobExportUser {
   id: string;
   file_path: string;
-  created_ate: Date;
+  created_at: string;
   status: JobStatus;
 }

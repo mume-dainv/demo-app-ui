@@ -29,7 +29,7 @@ export default function ExportAcction({ row }: { row: JobExportUser }) {
         router.refresh();
       }
     } catch (error) {
-      addAlert({ message: error.response.message, variant: 'error' });
+      addAlert({ message: error.response.data.message, variant: 'error' });
     }
   };
   return (

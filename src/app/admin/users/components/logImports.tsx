@@ -11,11 +11,6 @@ export default function LogImport() {
   const modalRef = useRef(null);
 
   const { addAlert } = useAlert();
-  const [switchState, setSwitchState] = useState({
-    case: 1,
-    data: logImport,
-  });
-
   const fetchLogImport = async () => {
     try {
       const res = await getLogImportUser();
@@ -76,7 +71,7 @@ export default function LogImport() {
         ) : (
           logImport.map((log: ImportLogType) => (
             <div
-              onClick={() => log.row_fail > 0 && setMessages(log.errors as [])}
+              onClick={() => log.fail_count > 0 && setMessages(log.errors as [])}
               key={log.id}
               className="border-b p-4 cursor-pointer overflow-y-hidden flex flex-row items-center justify-between "
             >
@@ -84,8 +79,8 @@ export default function LogImport() {
                 <p>File Name: {log.file_name}</p>
                 <div className="flex flex-row justify-between">
                   <p>Total row: {log.total_rows}</p>
-                  <p className="text-red-500">Total row fail: {log.row_fail}</p>
-                  <p className="text-blue-500">Total row success: {log.row_success}</p>
+                  <p className="text-red-500">Total row fail: {log.fail_count}</p>
+                  <p className="text-blue-500">Total row success: {log.success_count}</p>
                   <p>
                     status:{' '}
                     <span className={`rounded-3xl p-2 text-white ${statusStyles[log.status]}`}>
