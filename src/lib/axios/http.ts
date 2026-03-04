@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
+import { redirect } from 'next/navigation';
 // lib/http.ts
 const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -20,14 +21,13 @@ http.interceptors.response.use(
       !originalRequest._retry &&
       originalRequest.url !== '/refresh'
     ) {
-      originalRequest._retry = true;
       try {
         await refreshHttp.post('/refresh');
         return http(originalRequest);
       } catch (err) {
         console.error('Refresh token failed', err);
         if (window.location.pathname !== '/login') {
-          window.location.href = '/login';
+          redirect('/login');
         }
       }
     }

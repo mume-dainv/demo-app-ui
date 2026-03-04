@@ -1,9 +1,7 @@
 import { get, post, postForm, put, del } from '@/lib/axios/http';
-import { UserType as any } from '@/lib/validations/user';
-import { headers } from 'next/headers';
 
-export const getProfile = () => {
-  return get('/me');
+export const getProfile = async () => {
+  return (await get('/me')).data;
 };
 
 export const updateProfile = (data: any) => {
@@ -54,4 +52,8 @@ export const downloadExportUsers = (path: string) => {
 
 export const deleteExportUsers = (id: string) => {
   return del('admin/users/export/' + id);
+};
+
+export const getAllUser = async (searchParams: string) => {
+  return (await get(`/admin/users?${searchParams}`)).data;
 };

@@ -15,10 +15,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const refresh = async () => {
     try {
       const res = await getProfile();
-      setUser(res.data.data.user);
+      setUser(res.data.user);
     } catch (error) {
-      if (error.status === 401) return router.replace('/login');
-      throw Error(error.data.message);
+      if (error?.status === 401) return router.replace('/login');
+      Error(error?.response?.message || 'a');
     }
   };
 

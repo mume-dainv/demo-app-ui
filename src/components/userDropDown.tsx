@@ -1,19 +1,25 @@
 'use client';
 
-import { useUser } from '@/contexts/userContext';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { logout as logoutHandle } from '@/services/clients/auth.client.service';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/hooks/users';
+import { QueryClient } from '@tanstack/react-query';
 
 export default function UserDropDown() {
-  const { user, refresh } = useUser();
+  const { user, clearUser } = useUser();
   const [menu, setMenu] = useState(false);
-  const router = useRouter();
   const menuRef = useRef(null);
+  const queryClient = new QueryClient();
+
+  const router = useRouter();
+
   const logout = async () => {
     await logoutHandle();
-    refresh();
+    clearUser();
+    queryClient.clear();
+    router.push('/login');
   };
 
   useEffect(() => {

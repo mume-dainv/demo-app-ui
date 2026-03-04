@@ -5,6 +5,7 @@ import Header from '@/components/header';
 import { UserProvider } from '@/contexts/userContext';
 import { AlertProvider } from '@/contexts/alertContext';
 import { Role } from '@/components/hooks/Role';
+import Providers from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,14 +18,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AlertProvider>
-          <UserProvider>
-            <div className="flex h-screen flex-col">
-              <Header></Header>
-              {children}
-            </div>
-          </UserProvider>
-        </AlertProvider>
+        <Providers>
+          <AlertProvider>
+            <UserProvider>
+              <Role />
+              <div className="flex h-screen flex-col">
+                <Header></Header>
+                {children}
+              </div>
+            </UserProvider>
+          </AlertProvider>
+        </Providers>
       </body>
     </html>
   );

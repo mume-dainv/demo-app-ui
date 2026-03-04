@@ -14,21 +14,23 @@ export function Role() {
   const searchParams = useSearchParams();
   const { user } = useUser();
   const router = useRouter();
+
   useEffect(() => {
     const path = pathname;
     const role = user?.role;
+    if (!role) return;
 
     roles.forEach((r) => {
       if (r.role === role) {
         r.block.forEach((b) => {
-          const patern = b.replace('*', '');
-          if (path.startsWith(patern)) {
+          const pattern = b.replace('*', '');
+          if (path.startsWith(pattern)) {
             router.replace('/');
           }
         });
       }
     });
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, router, user?.role]);
 
   return null;
 }

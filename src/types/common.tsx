@@ -43,3 +43,9 @@ export interface JobExportUser {
   created_at: string;
   status: JobStatus;
 }
+
+export type SearchParams = {
+  name_like?: string;
+  limit: number;
+  page: number;
+};

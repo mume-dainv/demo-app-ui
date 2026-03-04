@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import React from 'react';
 
-export default function UserAcction() {
+export default function UserAction() {
   const params = useSearchParams();
   const a = new URLSearchParams(params.toString());
   const { addAlert } = useAlert();

@@ -2,10 +2,11 @@
 
 import FormInput from '@/components/form/formInput';
 import { useAlert } from '@/contexts/alertContext';
-import { useUser } from '@/contexts/userContext';
+import { useUser } from '@/hooks/users';
 import { AuthSchema, AuthValue } from '@/lib/validations/auth';
 import { login } from '@/services/clients/auth.client.service';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,24 +22,28 @@ export default function Login() {
   const router = useRouter();
 
   const { addAlert } = useAlert();
-  const { user, refresh } = useUser();
+  const { user, refreshUser } = useUser();
 
   const handleLogin = async (auth: AuthValue) => {
     try {
       await login(auth);
-      await refresh();
+      await refreshUser();
       router.push('/');
     } catch (error) {
+      const message =
+        error instanceof AxiosError
+          ? (error.response?.data as { message?: string })?.message || 'Error...'
+          : 'Error...';
       addAlert({
         variant: 'error',
-        message: error.response.data.message || 'Error...',
+        message,
       });
     }
   };
 
   useEffect(() => {
-    user && router.back();
-  }, [user]);
+    if (user) router.replace('/');
+  }, [router, user]);
   return (
     <div className="flex h-screen max-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">

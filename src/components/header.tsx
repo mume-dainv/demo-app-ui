@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useUser } from '@/contexts/userContext';
 import UserDropDown from './userDropDown';
+import { useUser } from '@/hooks/users';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useUser();
-
   const navItems = [
     {
       name: 'Home',
@@ -19,7 +18,6 @@ export default function Header() {
       name: 'Users',
       href: '/admin/users',
       role: ['ADMIN'],
-      tag: 'a',
     },
     {
       name: 'Dashboard',
@@ -39,22 +37,12 @@ export default function Header() {
             if (item.role && !item.role.includes(user.role)) {
               return null;
             }
-            if (item.tag === 'a') {
-              return (
-                <a key={item.name} href={item.href} className="text-xl font-bold text-gray-800">
-                  {item.name}
-                </a>
-              );
-            }
             return (
               <Link key={item.name} href={item.href} className="text-xl font-bold text-gray-800">
                 {item.name}
               </Link>
             );
           })}
-        {/* <a href="/admin/users" className="text-xl font-bold text-gray-800">
-          Users
-        </a> */}
         {user ? (
           <UserDropDown />
         ) : (
