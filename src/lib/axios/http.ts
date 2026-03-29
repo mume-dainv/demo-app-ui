@@ -1,22 +1,56 @@
-import axios from "axios"
-
+import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 // lib/http.ts
-export const http = axios.create({
+const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-})
+  withCredentials: true,
+});
 
-export const get = (endPoint: string, options: any) => {
-    return http.get(endPoint, ...options);
-}
+const refreshHttp = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
+});
 
-export const post = (endPoint: string, data: object, options: any) => {
-    return http.post(endPoint, data, ...options);
-}
+http.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-export const put = (endPoint: string, data: object,options: any) => {
-    return http.put(endPoint, data, ...options);
-}
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      originalRequest.url !== '/refresh'
+    ) {
+      originalRequest._retry = true;
+      try {
+        await refreshHttp.post('/refresh');
+        return http(originalRequest);
+      } catch (err) {
+        console.error('Refresh token failed', err);
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
-export const del = (endPoint: string, options: any) => {
-    return http.delete(endPoint, ...options);
-}
+export const get = (endPoint: string, options?: any) => {
+  return http.get(endPoint, { ...options });
+};
+
+export const post = (endPoint: string, data: {}, options?: AxiosRequestConfig) => {
+  return http.post(endPoint, data);
+};
+
+export const postForm = (endPoint: string, data: object, options?: any) => {
+  return http.postForm(endPoint, data);
+};
+
+export const put = (endPoint: string, data: object, options?: any) => {
+  return http.put(endPoint, data, { ...options });
+};
+
+export const del = (endPoint: string, options?: any) => {
+  return http.delete(endPoint, { ...options });
+};
